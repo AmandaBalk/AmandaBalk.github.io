@@ -80,7 +80,7 @@
   font-weight: 300;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 600px) {
   .projects-grid {
     grid-template-columns: 1fr;
   }

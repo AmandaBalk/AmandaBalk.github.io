@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import "./About.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
@@ -19,6 +19,14 @@ export const About = ()=>{
     ]
 
     const [openSection, setOpenSection] = useState<number | null>(null);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+      const handleResize = () => setIsMobile(window.innerWidth <= 600);
+      handleResize();
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     const toggleSection = (section: number)=>{
         setOpenSection(openSection === section? null : section);
@@ -35,7 +43,7 @@ export const About = ()=>{
           <p>I'm a frontend developer student at Medieinstitutet, currently looking for an internship placement (LIA) for the fall of 2025. With a background in media and communication studies, I'm looking for an opportunity to grow as a developer in a creative and collaborative team, where curiosity is encouraged. </p>
         </section>
         <div className="about-section">
-          <div className="about-titles-row">
+          <div className="about-titles-row" style={isMobile ? { display: "none" } : {}}>
             {aboutSections.map((aboutSection, id) => (
               <h2
                 key={aboutSection.title}
@@ -44,23 +52,33 @@ export const About = ()=>{
               >
                 <span className="about-title-text">{aboutSection.title}</span>
                 <span className={`arrow${openSection === id ? " open" : ""}`}>
-      <FontAwesomeIcon icon={faCaretDown} />
-    </span>
+                  <FontAwesomeIcon icon={faCaretDown} />
+                </span>
               </h2>
             ))}
           </div>
-          {aboutSections.map((aboutSection, id) =>
-            openSection === id ? (
-              <ul
-                className={`about-content${aboutSection.title === "Skills" ? " skills-list" : ""}${aboutSection.title === "Soft Skills" ? " soft-skills-list" : ""}`}
-                key={aboutSection.title + "-content"}
-              >
-                {aboutSection.content.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
-            ) : null
-          )}
+          {isMobile
+            ? aboutSections.map((aboutSection) => (
+                <div className="about-content" key={aboutSection.title + "-content"}>
+                  <h3 className="about-section-title">{aboutSection.title}</h3>
+                  <ul className={aboutSection.title === "Skills" ? "skills-list" : aboutSection.title === "Soft Skills" ? "soft-skills-list" : ""}>
+                    {aboutSection.content.map((item, i) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))
+            : aboutSections.map((aboutSection, id) =>
+                openSection === id ? (
+                  <div className="about-content" key={aboutSection.title + "-content"}>
+                    <ul className={aboutSection.title === "Skills" ? "skills-list" : aboutSection.title === "Soft Skills" ? "soft-skills-list" : ""}>
+                      {aboutSection.content.map((item, i) => (
+                        <li key={i}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null
+              )}
         </div>
       </>
     )

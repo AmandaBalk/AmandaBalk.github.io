@@ -16,26 +16,6 @@
     }
 }
 
-.name{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    color: #e7542b;
-    padding-top: 0rem;
-    font-size: 32px;
-
-    .typewriter {
-    overflow: hidden; 
-    border-right: 0.1em solid #000; 
-    white-space: nowrap;
-    margin: 0 auto;
-    animation: typing 2.5s steps(32, end), blink-caret 0.75s step-end infinite;
-    width: 27ch;
-    margin-bottom: 1rem;
-    font-size: 26px;
-}
-}
 
 @keyframes typing {
   from { width: 0 }
