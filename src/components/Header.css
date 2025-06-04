@@ -5,6 +5,7 @@ header{
 .header-wave{
    fill: #f3f1e2;
    position: absolute;
+   margin-top: -2px;
 }
 
 .name{
